@@ -42,3 +42,5 @@ settings.xml
 build
 
 library/coverage-error.log
+/.nb-gradle/private/
+/.nb-gradle/profiles/private/

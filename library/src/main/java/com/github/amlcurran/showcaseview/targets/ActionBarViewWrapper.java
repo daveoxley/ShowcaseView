@@ -28,7 +28,7 @@ import java.util.List;
  * Class which wraps round the many implementations of ActionBarView and allows finding of Action
  * items
  */
-class ActionBarViewWrapper {
+class ActionBarViewWrapper implements BarViewWrapper {
 
     private ViewParent mActionBarView;
     private Class mActionBarViewClass;
@@ -52,6 +52,7 @@ class ActionBarViewWrapper {
     /**
      * Return the view which represents the spinner on the ActionBar, or null if there isn't one
      */
+    @Override
     public View getSpinnerView() {
         try {
             Field spinnerField = mActionBarViewClass.getDeclaredField("mSpinner");
@@ -68,6 +69,7 @@ class ActionBarViewWrapper {
     /**
      * Return the view which represents the title on the ActionBar, or null if there isn't one
      */
+    @Override
     public View getTitleView() {
         try {
             Field mTitleViewField = mActionBarViewClass.getDeclaredField("mTitleView");
@@ -84,6 +86,7 @@ class ActionBarViewWrapper {
     /**
      * Return the view which represents the overflow action item on the ActionBar, or null if there isn't one
      */
+    @Override
     public View getOverflowView() {
         try {
             Field actionMenuPresenterField = mAbsActionBarViewClass.getDeclaredField("mActionMenuPresenter");
@@ -104,6 +107,7 @@ class ActionBarViewWrapper {
      * Return the view which represents the MediaRouterButton action item on the ActionBar, or null
      * if there isn't one
      */
+    @Override
     public View getMediaRouterButtonView() {
         try {
             Field actionMenuPresenterField =
@@ -150,6 +154,7 @@ class ActionBarViewWrapper {
         return null;
     }
 
+    @Override
     public View getActionItem(int actionItemId) {
         try {
             Field actionMenuPresenterField = mAbsActionBarViewClass.getDeclaredField("mActionMenuPresenter");

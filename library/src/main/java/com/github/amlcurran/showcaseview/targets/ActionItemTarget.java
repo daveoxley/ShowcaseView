@@ -18,6 +18,7 @@ package com.github.amlcurran.showcaseview.targets;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.support.v7.widget.Toolbar;
 import android.view.ViewParent;
 
 /**
@@ -29,25 +30,37 @@ import android.view.ViewParent;
 public class ActionItemTarget implements Target {
 
     private final Activity mActivity;
+    private final Toolbar mToolbar;
     private final int mItemId;
 
-    ActionBarViewWrapper mActionBarWrapper;
+    BarViewWrapper mBarWrapper;
 
     public ActionItemTarget(Activity activity, int itemId) {
         mActivity = activity;
         mItemId = itemId;
+        mToolbar = null;
+    }
+
+    public ActionItemTarget(Toolbar toolbar, int itemId) {
+        mToolbar = toolbar;
+        mItemId = itemId;
+        mActivity = null;
     }
 
     @Override
     public Point getPoint() {
         setUp();
-        return new ViewTarget(mActionBarWrapper.getActionItem(mItemId)).getPoint();
+        return new ViewTarget(mBarWrapper.getActionItem(mItemId)).getPoint();
     }
 
     protected void setUp() {
-        Reflector reflector = ReflectorFactory.getReflectorForActivity(mActivity);
-        ViewParent p = reflector.getActionBarView(); //ActionBarView
-        mActionBarWrapper = new ActionBarViewWrapper(p);
+        if (mToolbar != null)
+            mBarWrapper = new ToolbarWrapper(mToolbar);
+        else {
+            Reflector reflector = ReflectorFactory.getReflectorForActivity(mActivity);
+            ViewParent p = reflector.getActionBarView(); //ActionBarView
+            mBarWrapper = new ActionBarViewWrapper(p);
+        }
     }
 
 }
